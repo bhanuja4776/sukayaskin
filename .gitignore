@@ -1,0 +1,8 @@
+node_modules
+.next
+out
+.env*.local
+*.pyc
+assets/extracted
+assets/crops
+*.tsbuildinfo

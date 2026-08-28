@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Backgrounds — warm ivory family, sampled from Sukaya's own product
+     surfaces and botanical flatlays (consistently #e8e0d0 / #e0d8c8). */
+  --color-cream: #faf7f0;
+  --color-sand: #f1e9db;
+  --color-sand-deep: #e6dac3;
+  --color-surface: #ffffff;
+  --color-line: #e0d4bc;
+
+  /* Text — warm charcoal-brown, never pure black, echoing the logo's
+     script tagline (~#1e1e1e read against ivory, softened for the web). */
+  --color-ink: #2a2418;
+  --color-ink-soft: #574d38;
+  --color-ink-faint: #8c8066;
+
+  /* Botanical green — sampled directly from the leaf illustration in the
+     Sukaya mark (~#666c36). */
+  --color-olive: #5f6836;
+  --color-olive-dark: #454b26;
+  --color-olive-deep: #2f331c;
+  --color-olive-light: #939c68;
+
+  /* Warm taupe — sampled from the SUKAYA lettering itself (~#7e7254),
+     the logo's secondary tone. Used for quieter accents and dividers. */
+  --color-taupe: #7c6f52;
+  --color-taupe-deep: #574c37;
+
+  /* Clay — the warm earthy neutral for section variation. Replaces any
+     pink/blush; sourced from the same ivory-clay surfaces as backgrounds,
+     just deeper. */
+  --color-clay: #e3d3b4;
+  --color-clay-deep: #a9835a;
+
+  /* A single deliberate accent — the real, deep floral red found in the
+     geranium bloom (~#c00000), muted for restraint. Used rarely: a sale
+     badge, a hover state. Never as a section wash. */
+  --color-accent: #9c4632;
+
+  --font-display: var(--font-heading);
+  --font-body: var(--font-ui);
+  --font-signature: var(--font-brand);
+  --font-script: var(--font-accent-script);
+}
+
+:root {
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-soft: 0 20px 60px -20px rgba(43, 42, 32, 0.25);
+  --shadow-card: 0 12px 30px -12px rgba(43, 42, 32, 0.18);
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-signature {
+  font-family: var(--font-signature);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.font-script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-olive-dark);
+}
+
+.eyebrow-inverse {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-sand);
+}
+
+/* Reduce motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-olive-dark);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--color-olive-light);
+  color: var(--color-cream);
+}
+
+.hairline {
+  border-top: 1px solid var(--color-line);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
