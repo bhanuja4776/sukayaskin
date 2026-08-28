@@ -57,6 +57,15 @@ export function FindYourRitual() {
             </Link>
           ))}
         </div>
+
+        <Reveal delay={0.15} className="mt-14 text-center">
+          <Link
+            href="/skin-quiz"
+            className="text-xs uppercase tracking-[0.14em] text-cream/80 underline decoration-cream/30 underline-offset-4 hover:text-cream"
+          >
+            Want a fuller answer? Take the 3-question Skin Quiz →
+          </Link>
+        </Reveal>
       </div>
     </section>
   );
