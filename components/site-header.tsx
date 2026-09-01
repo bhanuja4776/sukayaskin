@@ -13,6 +13,7 @@ const links = [
   { href: "/skin-quiz", label: "Skin Quiz" },
   { href: "/about#ingredients", label: "Ingredients" },
   { href: "/about", label: "Story" },
+  { href: "/announcements", label: "Announcements" },
 ];
 
 const ease = [0.22, 1, 0.36, 1] as const;

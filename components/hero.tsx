@@ -7,7 +7,7 @@ import { ArrowLink } from "@/components/arrow-link";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-export function Hero() {
+export function Hero({ badge }: { badge?: React.ReactNode }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
@@ -74,6 +74,7 @@ export function Hero() {
           sizes="(max-width: 1024px) 100vw, 55vw"
           className="object-cover"
         />
+        {badge}
       </motion.div>
 
       <motion.div

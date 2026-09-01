@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero";
+import { AnnouncementBadge } from "@/components/announcement-badge";
 import { ScrollStory } from "@/components/scroll-story";
 import { FeaturedSpotlight } from "@/components/featured-spotlight";
 import { FeaturedProducts } from "@/components/featured-products";
@@ -12,7 +13,7 @@ import { NewsletterBand } from "@/components/newsletter-band";
 export default function Home() {
   return (
     <main>
-      <Hero />
+      <Hero badge={<AnnouncementBadge />} />
       <ScrollStory />
       <FeaturedSpotlight />
       <FeaturedProducts />
