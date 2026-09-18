@@ -7,7 +7,6 @@ import { RitualSection } from "@/components/ritual-section";
 import { IngredientGalleryStrip } from "@/components/ingredient-gallery-strip";
 import { FindYourRitual } from "@/components/find-your-ritual";
 import { PhilosophySplit } from "@/components/philosophy-split";
-import { TrialBanner } from "@/components/trial-banner";
 import { NewsletterBand } from "@/components/newsletter-band";
 
 export default function Home() {
@@ -21,7 +20,6 @@ export default function Home() {
       <IngredientGalleryStrip />
       <FindYourRitual />
       <PhilosophySplit />
-      <TrialBanner />
       <NewsletterBand />
     </main>
   );
