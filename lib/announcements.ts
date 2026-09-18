@@ -60,7 +60,7 @@ export const announcements: AnnouncementEntry[] = [
     shortDescription: "Botanical nourishment for your daily ritual.",
     content:
       "Rosehip, sea buckthorn, and a quiet blend of carotenoid-rich oils — formulated for the moments skin needs to restore, not just perform. Essential-oil-free and gentle enough for daily use.",
-    image: "/images/ingredients/rosehip-closeup.jpg",
+    image: "/images/lifestyle/rosehip-restore.jpg",
     imageAlt: "Rosehip, one of the key botanicals in the Super Fruits Face Elixir",
     date: "2026-08-20",
     ctaText: "Discover",
@@ -107,8 +107,8 @@ export const announcements: AnnouncementEntry[] = [
     shortDescription: "The full Sukaya ingredient library — what's in every formula, and why.",
     content:
       "Waterless, preservative-free, and never hiding behind a proprietary blend. Every oil, extract, and butter we use is listed with the reason it's there.",
-    image: "/images/ingredients/lavender-closeup.jpg",
-    imageAlt: "Lavender, one of the botanicals used across the Sukaya range",
+    image: "/images/lifestyle/philosophy-botanicals.jpg",
+    imageAlt: "Lavender, rosehip, geranium, and strawberry arranged on a natural surface",
     date: "2026-06-01",
     ctaText: "Explore Ingredients",
     ctaLink: "/about#ingredients",
@@ -192,7 +192,7 @@ export const announcements: AnnouncementEntry[] = [
     type: "shipping",
     title: "A Note On Shipping.",
     shortDescription: "[Add real shipping details here.]",
-    image: "/images/lifestyle/ingredients-honeycomb-lavender.jpg",
+    image: "/images/lifestyle/honey-lavender-nourish.jpg",
     imageAlt: "Honeycomb and lavender, ingredients used across the Sukaya range",
     date: "2026-09-01",
     ctaText: "Learn More",

@@ -10,8 +10,8 @@ export function AnnouncementHero() {
     <section className="relative flex min-h-[46vh] items-end overflow-hidden bg-olive-deep sm:min-h-[56vh]">
       <div className="absolute inset-0">
         <Image
-          src="/images/lifestyle/ingredients-honeycomb-lavender.jpg"
-          alt="Honeycomb and lavender, botanicals used across the Sukaya range"
+          src="/images/lifestyle/philosophy-botanicals.jpg"
+          alt="Lavender, rosehip, geranium, and strawberry arranged on a natural surface"
           fill
           priority
           sizes="100vw"

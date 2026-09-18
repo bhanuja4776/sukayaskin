@@ -15,19 +15,19 @@ const chapters = [
     eyebrow: "02 — Nourish",
     title: "Lavender, honey & seed oils.",
     copy: "Feed the skin what it knows.",
-    image: "/images/lifestyle/ingredients-honeycomb-lavender.jpg",
+    image: "/images/lifestyle/honey-lavender-nourish.jpg",
   },
   {
     eyebrow: "03 — Restore",
     title: "Rosehip & sea buckthorn.",
     copy: "Repair, from the inside out.",
-    image: "/images/ingredients/rosehip-closeup.jpg",
+    image: "/images/lifestyle/rosehip-restore.jpg",
   },
   {
     eyebrow: "04 — Ritual",
     title: "Slow down. Apply with care.",
     copy: "Skincare as a daily pause.",
-    image: "/images/lifestyle/pink-blush-hero.jpg",
+    image: "/images/products/pink-blush-mask.jpg",
   },
 ];
 
