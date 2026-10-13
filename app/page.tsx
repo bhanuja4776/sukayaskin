@@ -2,6 +2,7 @@ import { Hero } from "@/components/hero";
 import { ScrollStory } from "@/components/scroll-story";
 import { FeaturedSpotlight } from "@/components/featured-spotlight";
 import { FeaturedProducts } from "@/components/featured-products";
+import { SpecialsSection } from "@/components/specials-section";
 import { RitualSection } from "@/components/ritual-section";
 import { IngredientGalleryStrip } from "@/components/ingredient-gallery-strip";
 import { FindYourRitual } from "@/components/find-your-ritual";
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <SpecialsSection />
       <ScrollStory />
       <FeaturedSpotlight />
       <FeaturedProducts />
