@@ -7,7 +7,7 @@ export function NewsletterBand() {
   const [sent, setSent] = useState(false);
 
   return (
-    <section className="bg-clay py-20 sm:py-24">
+    <section id="newsletter" className="scroll-mt-20 bg-clay py-20 sm:py-24">
       <div className="mx-auto max-w-2xl px-5 text-center sm:px-8">
         <Reveal>
           <p className="eyebrow mb-4">Stay Close</p>

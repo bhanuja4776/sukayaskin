@@ -1,249 +1,162 @@
-// Central data source for the Sukaya Announcements journal (/announcements).
-// Edit this file to add, change, publish, or retire announcements — no
-// component code needs to change.
+// Central content for announcements, promotions, and news.
 //
-// To connect a CMS/database later (Sanity, Contentful, Shopify, Supabase,
-// Firebase, a custom admin, ...): fetch this same shape server-side and pass
-// it into the page components instead of importing `announcements` directly.
-// Nothing downstream depends on this array being local.
+// Edit this file to change what the announcement bar, the shop promo strip,
+// and the News page show — no component code needs to change. To source any
+// of it from a CMS or admin later, fetch the same shapes and pass them as props
+// to <AnnouncementBar />, <ShopPromoBanner />, and the News pages.
 
-export type AnnouncementType =
-  | "new-launch"
-  | "promotion"
-  | "new-collection"
-  | "limited-edition"
-  | "restock"
-  | "seasonal"
-  | "event"
-  | "brand-news"
-  | "shipping";
+import { getProductBySlug } from "@/lib/products";
 
-export const announcementTypeLabels: Record<AnnouncementType, string> = {
-  "new-launch": "New Launch",
-  promotion: "Special Offer",
-  "new-collection": "New Collection",
-  "limited-edition": "Limited Edition",
-  restock: "Back In Stock",
-  seasonal: "Seasonal",
-  event: "Event",
-  "brand-news": "Brand News",
-  shipping: "Shipping",
+// --- Announcement bar (slim rotating strip above the header) ---------------
+
+export type BarMessage = {
+  id: string;
+  /** Bold, uppercase lead text. Always shown. */
+  strong: string;
+  /** Lighter, underlined follow-on text. Hidden on narrow screens. */
+  light?: string;
+  href: string;
 };
 
-export type AnnouncementEntry = {
-  id: string;
-  slug: string;
-  type: AnnouncementType;
-  title: string;
-  shortDescription: string;
-  /** Longer body copy for the detail page. Falls back to shortDescription if omitted. */
-  content?: string;
+const trial = getProductBySlug("trial-collection");
+const trialSaving = trial?.compareAtPrice ? Math.round(trial.compareAtPrice - trial.price) : 0;
+
+export const announcementBar: { enabled: boolean; messages: BarMessage[] } = {
+  enabled: true,
+  messages: [
+    { id: "newsletter", strong: "10% off your first ritual", light: "when you sign up", href: "/#newsletter" },
+    ...(trialSaving > 0
+      ? [
+          {
+            id: "trial",
+            strong: `Trial Collection — save $${trialSaving}`,
+            light: "four favourites in trial sizes",
+            href: "/product/trial-collection",
+          },
+        ]
+      : []),
+    { id: "quiz", strong: "Not sure where to start?", light: "take the 3-question skin quiz", href: "/skin-quiz" },
+  ],
+};
+
+// --- Promo strip at the top of the shop page --------------------------------
+
+export type ShopBanner = {
+  enabled: boolean;
+  heading: string;
+  /** Short supporting line. The saving is appended automatically when `productSlug` has a compare-at price. */
+  text: string;
+  productSlug?: string;
+  ctaText: string;
+  href: string;
   image: string;
   imageAlt: string;
-  /** ISO date. Used for sorting and display (rendered as "Month YYYY"). */
-  date: string;
-  ctaText: string;
-  ctaLink: string;
-  /** Ties this announcement to a real product, shown on its detail page. */
-  productSlug?: string;
-  featured?: boolean;
-  published: boolean;
 };
 
-export const announcements: AnnouncementEntry[] = [
-  // --- Live announcements ---
+export const shopBanner: ShopBanner = {
+  enabled: true,
+  heading: "Trial Collection",
+  text: "Four favourites in trial sizes",
+  productSlug: "trial-collection",
+  ctaText: "Shop Now",
+  href: "/product/trial-collection",
+  image: "/images/products/trial-collection.jpg",
+  imageAlt: "Sukaya Trial Collection — Pink Blush, Berry Light, Super Fruits, and Calming Body Butter",
+};
+
+// --- News --------------------------------------------------------------------
+
+export type NewsPost = {
+  slug: string;
+  title: string;
+  /** One sentence, used for search/social previews. */
+  excerpt: string;
+  /** Paragraphs of body copy. */
+  body: string[];
+  image: string;
+  imageAlt: string;
+  /** Shows the linked product beneath the article. */
+  productSlug?: string;
+  cta?: { text: string; href: string };
+};
+
+// Newest first.
+export const newsPosts: NewsPost[] = [
   {
-    id: "super-fruits-launch",
     slug: "a-new-ritual-has-arrived",
-    type: "new-launch",
-    title: "A New Ritual Has Arrived.",
-    shortDescription: "Botanical nourishment for your daily ritual.",
-    content:
-      "Rosehip, sea buckthorn, and a quiet blend of carotenoid-rich oils — formulated for the moments skin needs to restore, not just perform. Essential-oil-free and gentle enough for daily use.",
+    title: "A New Ritual Has Arrived",
+    excerpt: "Super Fruits Face Elixir — botanical nourishment for your daily ritual.",
+    body: [
+      "Rosehip, sea buckthorn, and a quiet blend of carotenoid-rich oils — formulated for the moments skin needs to restore, not just perform.",
+      "Essential-oil-free and formulated for even the most sensitive skin, the Super Fruits Face Elixir is a vivid, carotenoid-rich oil that restores, repairs, and leaves skin luminous.",
+    ],
     image: "/images/lifestyle/rosehip-restore.jpg",
     imageAlt: "Rosehip, one of the key botanicals in the Super Fruits Face Elixir",
-    date: "2026-08-20",
-    ctaText: "Discover",
-    ctaLink: "/product/super-fruits-face-elixir",
     productSlug: "super-fruits-face-elixir",
-    featured: true,
-    published: true,
+    cta: { text: "Shop Super Fruits", href: "/product/super-fruits-face-elixir" },
   },
   {
-    id: "skin-quiz",
     slug: "find-your-ritual-in-three-questions",
-    type: "event",
-    title: "Find Your Ritual in Three Questions.",
-    shortDescription: "A quick quiz, matched to the real Sukaya range.",
-    content:
-      "Not sure where to start? Answer three short questions about your skin and we'll point you toward the formulas suited to it — no signup, no guessing.",
+    title: "Find Your Ritual in Three Questions",
+    excerpt: "A quick skin quiz, matched to the real Sukaya range.",
+    body: [
+      "Not sure where to start? Answer three short questions about your skin and we'll point you toward the formulas suited to it.",
+      "There's no signup and no guessing — just a short list of products from the Sukaya range that fit what your skin needs right now.",
+    ],
     image: "/images/lifestyle/aromatherapy-oil-bottle.jpg",
     imageAlt: "A Sukaya facial oil styled with fresh lavender",
-    date: "2026-08-10",
-    ctaText: "Take the Quiz",
-    ctaLink: "/skin-quiz",
-    published: true,
+    cta: { text: "Take the Skin Quiz", href: "/skin-quiz" },
   },
   {
-    id: "the-ritual",
     slug: "four-steps-no-shortcuts",
-    type: "new-collection",
     title: "Four Steps. No Shortcuts.",
-    shortDescription: "Cleanse, exfoliate, nourish, restore — the full Sukaya ritual.",
-    content:
-      "A ritual built without compromise: one formula for each step, each doing exactly what it says and nothing more. No ten-step routines, no filler products.",
-    image: "/images/lifestyle/philosophy-botanicals.jpg",
-    imageAlt: "Lavender, rosehip, geranium, and strawberry arranged on a natural surface",
-    date: "2026-07-15",
-    ctaText: "Explore the Ritual",
-    ctaLink: "/#ritual",
-    published: true,
-  },
-  {
-    id: "ingredient-library",
-    slug: "every-ingredient-no-fine-print",
-    type: "brand-news",
-    title: "Every Ingredient, No Fine Print.",
-    shortDescription: "The full Sukaya ingredient library — what's in every formula, and why.",
-    content:
-      "Waterless, preservative-free, and never hiding behind a proprietary blend. Every oil, extract, and butter we use is listed with the reason it's there.",
-    image: "/images/lifestyle/philosophy-botanicals.jpg",
-    imageAlt: "Lavender, rosehip, geranium, and strawberry arranged on a natural surface",
-    date: "2026-06-01",
-    ctaText: "Explore Ingredients",
-    ctaLink: "/about#ingredients",
-    published: true,
-  },
-  {
-    id: "trial-collection",
-    slug: "discover-before-you-commit",
-    type: "new-collection",
-    title: "Discover, Before You Commit.",
-    shortDescription: "Four Sukaya favourites, in trial sizes.",
-    content:
-      "Enough of each formula to feel the texture, the aroma, and the results — before choosing a full size. A gentle, low-waste way into the range.",
-    image: "/images/products/trial-collection.jpg",
-    imageAlt: "The Sukaya Trial Collection",
-    date: "2026-05-10",
-    ctaText: "Shop the Trial Collection",
-    ctaLink: "/product/trial-collection",
-    productSlug: "trial-collection",
-    published: true,
-  },
-
-  // --- Templates, disabled until there's a real offer/date behind them.
-  // Flip `published: true` and replace the bracketed copy — never publish a
-  // placeholder discount or a claim that isn't true yet.
-  {
-    id: "example-promotion",
-    slug: "a-little-something-for-your-ritual",
-    type: "promotion",
-    title: "A Little Something For Your Ritual.",
-    shortDescription: "[Describe the real offer here before publishing.]",
-    image: "/images/lifestyle/serum-dropper-florals.jpg",
-    imageAlt: "Sukaya serum dropper styled with fresh florals",
-    date: "2026-09-01",
-    ctaText: "Shop the Offer",
-    ctaLink: "/shop",
-    published: false,
-  },
-  {
-    id: "example-limited-edition",
-    slug: "the-seasonal-ritual",
-    type: "limited-edition",
-    title: "The Seasonal Ritual",
-    shortDescription: "[Describe the limited-edition product here.]",
-    image: "/images/ingredients/geranium-flower-closeup.jpg",
-    imageAlt: "Geranium flower, used in several Sukaya formulas",
-    date: "2026-09-01",
-    ctaText: "Discover",
-    ctaLink: "/shop",
-    published: false,
-  },
-  {
-    id: "example-restock",
-    slug: "your-favourite-ritual-is-back",
-    type: "restock",
-    title: "Your Favourite Ritual Is Back.",
-    shortDescription: "[Name the restocked product here.]",
-    image: "/images/ingredients/aloe-leaf-closeup.jpg",
-    imageAlt: "Aloe vera, used across the Sukaya range",
-    date: "2026-09-01",
-    ctaText: "Shop Now",
-    ctaLink: "/shop",
-    published: false,
-  },
-  {
-    id: "example-seasonal",
-    slug: "botanical-rituals-for-the-season-ahead",
-    type: "seasonal",
-    title: "Botanical Rituals For The Season Ahead.",
-    shortDescription: "[Describe the seasonal update here.]",
-    image: "/images/ingredients/strawberry-closeup.jpg",
-    imageAlt: "Strawberry seed, used in the Berry Light Soothe Serum",
-    date: "2026-09-01",
-    ctaText: "Discover",
-    ctaLink: "/shop",
-    published: false,
-  },
-  {
-    id: "example-shipping",
-    slug: "a-note-on-shipping",
-    type: "shipping",
-    title: "A Note On Shipping.",
-    shortDescription: "[Add real shipping details here.]",
+    excerpt: "Cleanse, exfoliate, nourish, restore — the full Sukaya ritual.",
+    body: [
+      "A ritual built without compromise: one formula for each step, each doing exactly what it says and nothing more.",
+      "Cleanse with Patchouli, exfoliate with Pink Blush, nourish with Berry Light, and restore with Super Fruits. No ten-step routines, no filler products.",
+    ],
     image: "/images/lifestyle/honey-lavender-nourish.jpg",
-    imageAlt: "Honeycomb and lavender, ingredients used across the Sukaya range",
-    date: "2026-09-01",
-    ctaText: "Learn More",
-    ctaLink: "/contact",
-    published: false,
+    imageAlt: "Lavender and honey on a wooden table",
+    cta: { text: "Explore the Ritual", href: "/#ritual" },
+  },
+  {
+    slug: "every-ingredient-no-fine-print",
+    title: "Every Ingredient, No Fine Print",
+    excerpt: "The full Sukaya ingredient library — what's in every formula, and why.",
+    body: [
+      "We don't use harmful ingredients like parabens, phenoxyethanol, phthalates, propylene glycol, DEA, MEA, BHT, or TEA.",
+      "Every oil, extract, and butter we use is listed with the reason it's there — no proprietary blends, no hiding behind a long label.",
+    ],
+    image: "/images/lifestyle/philosophy-botanicals.jpg",
+    imageAlt: "Lavender, rosehip, geranium, and strawberry arranged on a natural surface",
+    cta: { text: "Explore Ingredients", href: "/about#ingredients" },
+  },
+  {
+    slug: "why-waterless",
+    title: "Why Waterless Skincare Works",
+    excerpt: "Most skincare is 80% water. Ours is 0%.",
+    body: [
+      "Our products are waterless and preservative-free. Most skincare is 80% water; ours is 0%.",
+      "That means 5x more vitamins, antioxidants, and essential fatty acids, giving your skin pure nourishment with less product, less waste, and more results.",
+    ],
+    image: "/images/ingredients/jojoba-closeup.jpg",
+    imageAlt: "Close-up of golden botanical oil",
+    cta: { text: "Shop the Range", href: "/shop" },
+  },
+  {
+    slug: "aromatherapy-with-intention",
+    title: "Aromatherapy, Chosen With Intention",
+    excerpt: "Scent that supports your skincare — in precise, safe amounts.",
+    body: [
+      "Beyond simplicity, we incorporate aromatherapy into every formula to enhance both your skincare regimen and your overall wellbeing. Our founder is a certified Aromatherapy Practitioner with a specialist certificate in rejuvenating skincare from the Australian College of Aromatherapy.",
+      "Each oil is chosen with care, in precise and safe amounts. Our facial products contain less than 1% essential oils, body products up to 2% — safe, effective, and free from the risk of sensitisation.",
+    ],
+    image: "/images/ingredients/lavender-closeup.jpg",
+    imageAlt: "Lavender, one of the botanicals used across the Sukaya range",
+    cta: { text: "Our Story", href: "/about" },
   },
 ];
 
-export type AnnouncementFilterValue = "all" | "new" | "offers" | "launches" | "restocks";
-
-export const announcementFilters: { value: AnnouncementFilterValue; label: string; types: AnnouncementType[] | "all" }[] = [
-  { value: "all", label: "All", types: "all" },
-  { value: "new", label: "New", types: ["new-launch", "new-collection", "limited-edition", "seasonal"] },
-  { value: "offers", label: "Offers", types: ["promotion", "shipping"] },
-  { value: "launches", label: "Launches", types: ["new-launch", "new-collection"] },
-  { value: "restocks", label: "Restocks", types: ["restock"] },
-];
-
-export function getPublishedAnnouncements(items: AnnouncementEntry[] = announcements) {
-  return items.filter((a) => a.published);
-}
-
-function byNewestFirst(a: AnnouncementEntry, b: AnnouncementEntry) {
-  return new Date(b.date).getTime() - new Date(a.date).getTime();
-}
-
-export function getFeaturedAnnouncement(items: AnnouncementEntry[] = announcements) {
-  const published = getPublishedAnnouncements(items);
-  const explicit = published.find((a) => a.featured);
-  if (explicit) return explicit;
-  return [...published].sort(byNewestFirst)[0] ?? null;
-}
-
-export function getArchiveAnnouncements(items: AnnouncementEntry[] = announcements) {
-  const featured = getFeaturedAnnouncement(items);
-  return getPublishedAnnouncements(items)
-    .filter((a) => a.id !== featured?.id)
-    .sort(byNewestFirst);
-}
-
-export function getAnnouncementBySlug(slug: string, items: AnnouncementEntry[] = announcements) {
-  return getPublishedAnnouncements(items).find((a) => a.slug === slug) ?? null;
-}
-
-export function getRelatedAnnouncements(current: AnnouncementEntry, items: AnnouncementEntry[] = announcements, count = 3) {
-  return getPublishedAnnouncements(items)
-    .filter((a) => a.id !== current.id)
-    .sort(byNewestFirst)
-    .slice(0, count);
-}
-
-export function formatAnnouncementDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+export function getNewsPost(slug: string) {
+  return newsPosts.find((p) => p.slug === slug);
 }

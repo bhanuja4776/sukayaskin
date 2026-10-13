@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { ShopGrid } from "@/components/shop-grid";
+import { ShopPromoBanner } from "@/components/shop-promo-banner";
 
 export const metadata = {
   title: "Shop — Sukaya",
@@ -19,6 +20,7 @@ export default function ShopPage() {
           fillers — built to do more with less.
         </p>
       </section>
+      <ShopPromoBanner />
       <Suspense fallback={null}>
         <ShopGrid />
       </Suspense>

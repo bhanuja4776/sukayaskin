@@ -317,3 +317,8 @@ export const featuredProducts = products.filter((p) => p.featured);
 export function getProductBySlug(slug: string) {
   return products.find((p) => p.slug === slug);
 }
+
+export function getDiscountPercent(product: Pick<Product, "price" | "compareAtPrice">) {
+  if (!product.compareAtPrice || product.compareAtPrice <= product.price) return 0;
+  return Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100);
+}

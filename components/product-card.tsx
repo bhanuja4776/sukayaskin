@@ -3,12 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import type { Product } from "@/lib/products";
+import { getDiscountPercent, type Product } from "@/lib/products";
 import { useCart } from "@/lib/cart-context";
 
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const { addItem } = useCart();
   const [justAdded, setJustAdded] = useState(false);
+  const discount = getDiscountPercent(product);
 
   return (
     <div className="group">
@@ -22,9 +23,9 @@ export function ProductCard({ product, priority = false }: { product: Product; p
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           />
-          {product.compareAtPrice && (
-            <span className="absolute left-3 top-3 bg-accent px-2.5 py-1 text-[0.65rem] uppercase tracking-[0.12em] text-cream">
-              Save ${(product.compareAtPrice - product.price).toFixed(0)}
+          {discount > 0 && (
+            <span className="absolute right-3 top-3 rounded-sm bg-clay px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-ink">
+              {discount}% off
             </span>
           )}
 
@@ -51,11 +52,14 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           </p>
           <p className="text-xs text-ink-faint mt-0.5">{product.tagline}</p>
         </Link>
-        <div className="flex shrink-0 items-baseline gap-1.5 pt-0.5">
-          {product.compareAtPrice && (
-            <span className="text-xs text-ink-faint line-through">${product.compareAtPrice}</span>
-          )}
-          <span className="text-sm text-ink-soft">${product.price}</span>
+        <div className="shrink-0 pt-0.5 text-right">
+          <div className="flex items-baseline justify-end gap-1.5">
+            {product.compareAtPrice && (
+              <span className="text-xs text-ink-faint line-through">${product.compareAtPrice}</span>
+            )}
+            <span className="text-sm text-ink-soft">${product.price}</span>
+          </div>
+          {discount > 0 && <p className="mt-0.5 text-xs text-olive-dark">Save {discount}%</p>}
         </div>
       </div>
 

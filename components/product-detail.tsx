@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import type { Product } from "@/lib/products";
+import { getDiscountPercent, type Product } from "@/lib/products";
 import { useCart } from "@/lib/cart-context";
 import { QuantityStepper } from "@/components/quantity-stepper";
 import { Accordion } from "@/components/accordion";
@@ -12,6 +12,7 @@ export function ProductDetail({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
+  const discount = getDiscountPercent(product);
 
   const images = [product.image, product.lifestyleImage].filter((x): x is string => Boolean(x));
 
@@ -52,11 +53,19 @@ export function ProductDetail({ product }: { product: Product }) {
           <h1 className="font-display text-4xl leading-[1.05] text-ink sm:text-[2.75rem]">{product.name}</h1>
           <p className="mt-1.5 text-base text-ink-faint">{product.tagline}</p>
 
-          <div className="mt-5 flex items-baseline gap-2.5">
+          <div className="mt-5 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
             {product.compareAtPrice && (
               <span className="text-lg text-ink-faint line-through">${product.compareAtPrice}</span>
             )}
             <span className="font-display text-2xl text-ink">${product.price}</span>
+            {discount > 0 && (
+              <>
+                <span className="text-sm text-olive-dark">Save {discount}%</span>
+                <span className="rounded-sm bg-clay px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-ink">
+                  {discount}% off
+                </span>
+              </>
+            )}
           </div>
 
           <p className="mt-6 max-w-[52ch] text-[0.98rem] leading-relaxed text-ink-soft">{product.description}</p>

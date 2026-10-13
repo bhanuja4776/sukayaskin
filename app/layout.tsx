@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Ballet, Instrument_Serif, Cormorant_Garamond, Jost } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart-context";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CartDrawer } from "@/components/cart-drawer";
@@ -58,6 +59,7 @@ export default function RootLayout({
     >
       <body className="font-body">
         <CartProvider>
+          <AnnouncementBar />
           <SiteHeader />
           {children}
           <SiteFooter />
