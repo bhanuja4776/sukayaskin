@@ -23,7 +23,7 @@ export function SpecialsSection() {
         : "w-[calc(50%-0.625rem)] sm:w-[calc(33.333%-1.35rem)] lg:w-[calc(25%-1.5rem)]";
 
   return (
-    <section className="bg-cream py-16 sm:py-24">
+    <section className="bg-cream pb-14 pt-4 sm:py-24">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="mb-10 flex flex-col items-center gap-4 text-center sm:mb-14">
           <p className="eyebrow">On Offer</p>

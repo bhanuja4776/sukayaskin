@@ -16,8 +16,8 @@ export function Hero() {
   const wordmarkOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.35]);
 
   return (
-    <section ref={ref} className="relative grid min-h-[100svh] grid-cols-1 bg-cream lg:grid-cols-[1fr_1.05fr]">
-      <div className="relative order-2 flex flex-col justify-center px-6 pb-14 pt-10 sm:px-10 lg:order-1 lg:px-16 lg:pb-16 lg:pt-24">
+    <section ref={ref} className="relative grid grid-cols-1 bg-cream lg:min-h-[100svh] lg:grid-cols-[1fr_1.05fr]">
+      <div className="relative order-2 flex flex-col px-6 pb-10 pt-8 sm:px-10 lg:order-1 lg:justify-center lg:px-16 lg:pb-16 lg:pt-24">
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
